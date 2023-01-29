@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const db_1 = require("./repositories/db");
-const db_in_1 = require("./repositories/db-in");
 const blogs_route_1 = require("./routes/blogs-route");
 const posts_route_1 = require("./routes/posts-route");
 const app = (0, express_1.default)();
@@ -24,9 +23,14 @@ const jsonBodyMiddleware = body_parser_1.default.json();
 app.use(jsonBodyMiddleware);
 app.use('/blogs', blogs_route_1.blogsRouter);
 app.use('/posts', posts_route_1.postsRouter);
+// app.delete("/testing/all-data", (req: Request, res: Response) => {
+//   db.posts = [];
+//   db.blogs = [];
+//   res.send(204);
+// });
 app.delete("/testing/all-data", (req, res) => {
-    db_in_1.db.posts = [];
-    db_in_1.db.blogs = [];
+    db_1.blogsCollections.deleteMany({});
+    db_1.postsCollections.deleteMany({});
     res.send(204);
 });
 const startApp = () => __awaiter(void 0, void 0, void 0, function* () {

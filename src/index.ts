@@ -1,6 +1,6 @@
 import express,{Request, Response} from 'express'
 import bodyParser from "body-parser"; 
-import { runDb } from './repositories/db';
+import { blogsCollections, postsCollections, runDb } from './repositories/db';
 import { db } from './repositories/db-in';
 import { blogsRouter } from './routes/blogs-route';
 import { postsRouter } from './routes/posts-route';
@@ -13,9 +13,15 @@ app.use (jsonBodyMiddleware)
 app.use('/blogs', blogsRouter) 
 app.use('/posts', postsRouter) 
 
+// app.delete("/testing/all-data", (req: Request, res: Response) => {
+//   db.posts = [];
+//   db.blogs = [];
+//   res.send(204);
+// });
+
 app.delete("/testing/all-data", (req: Request, res: Response) => {
-  db.posts = [];
-  db.blogs = [];
+  blogsCollections.deleteMany({});
+  postsCollections.deleteMany({});
   res.send(204);
 });
 
