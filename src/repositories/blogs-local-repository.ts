@@ -3,7 +3,9 @@ import { blogsCollections } from "./db";
 
 export const blogsRepository = {
   async findBlogs(): Promise<BlogViewModel[]> {
-    return await blogsCollections.find({}).toArray();
+    return await blogsCollections
+      .find({}, { projection: { _id: 0 } })
+      .toArray();
   },
   async createBlog(
     name: string,
@@ -35,12 +37,19 @@ export const blogsRepository = {
       websiteUrl: isWebsiteUrl,
       createdAt: isCreateAt,
     };
-    const result = await blogsCollections.insertOne(createBlog);
-
-    return createBlog;
+    await blogsCollections.insertOne(createBlog);
+    const result = await blogsCollections.findOne(
+      { id: isId },
+      { projection: { _id: 0 } }
+    );
+    if (result) {
+      return result;
+    } else {
+      return createBlog;
+    }
   },
   async findBlogById(id: string): Promise<BlogViewModel | null> {
-    let oneBlog = await blogsCollections.findOne({ id: id });
+    let oneBlog = await blogsCollections.findOne({ id: id },{ projection: { _id: 0 } });
     if (oneBlog) {
       return oneBlog;
     } else {

@@ -4,7 +4,9 @@ import { postsCollections } from "./db";
 
 export const postsRepository = {
   async findPosts() {
-    return await postsCollections.find({}).toArray();
+    return await postsCollections
+      .find({}, { projection: { _id: 0 } })
+      .toArray();
   },
   async createPost(
     title: string,
@@ -43,12 +45,20 @@ export const postsRepository = {
       blogName: isBlogName,
       createdAt: isCreateAt,
     };
-    const result = await postsCollections.insertOne(createPost);
-    return createPost;
+    await postsCollections.insertOne(createPost);
+    const result = await postsCollections.findOne(
+      { id: isId },
+      { projection: { _id: 0 } }
+    );
+    if (result) {
+      return result;
+    } else {
+      return createPost
+    }
   },
 
   async findPostById(id: string): Promise<PostViewModel | null> {
-    let onePost = await postsCollections.findOne({ id: id });
+    let onePost = await postsCollections.findOne({ id: id },{ projection: { _id: 0 } });
 
     if (onePost) {
       return onePost;

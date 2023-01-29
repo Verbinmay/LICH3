@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult, body } from "express-validator";
 import { blogsRepository } from "../repositories/blogs-repository";
+import { blogsCollections } from "../repositories/db";
 import { db } from "../repositories/db-in";
 
 export const titleValidation = body("title")
@@ -35,7 +36,8 @@ export const contentValidation = body("content")
   .withMessage("content length must be max 1000");
 export const isBlogIdValidation = body("blogId").custom((value) => {
 
-  let foundBlog =db.blogs.find((p) => p.id === value);
+  let foundBlog =blogsCollections.findOne({id:value});
+ 
 
   if (!foundBlog) {
     throw new Error("Please insert existed user id");
