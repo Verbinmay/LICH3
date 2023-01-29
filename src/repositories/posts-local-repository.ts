@@ -74,7 +74,7 @@ export const postsRepository = {
     blogId: string
   ): Promise<boolean> {
     let isBlogName: string = "";
-    let aabb = await blogsRepository.findBlogById(blogId);
+    let aabb = await blogsCollections.findOne({id:blogId});
     if (aabb) {
       isBlogName = aabb.name;
     }
