@@ -67,7 +67,12 @@ exports.blogsRepository = {
     findBlogById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             let oneBlog = db_local_1.db.blogs.find((p) => p.id === id);
-            return oneBlog;
+            if (oneBlog) {
+                return oneBlog;
+            }
+            else {
+                return null;
+            }
         });
     },
     updateBlog(id, name, description, websiteUrl) {
@@ -89,10 +94,10 @@ exports.blogsRepository = {
             let oneBlog = db_local_1.db.blogs.find((p) => p.id === id);
             if (oneBlog !== undefined) {
                 db_local_1.db.blogs = db_local_1.db.blogs.filter((p) => p.id !== id);
-                return [204];
+                return true;
             }
             else {
-                return [404];
+                return false;
             }
         });
     },

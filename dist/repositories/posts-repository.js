@@ -1,86 +1,117 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsRepository = void 0;
+const blogs_repository_1 = require("./blogs-repository");
+const db_local_1 = require("./db-local");
 exports.postsRepository = {
     findPosts() {
-        return db.posts;
+        return __awaiter(this, void 0, void 0, function* () {
+            return db_local_1.db.posts;
+        });
     },
     createPost(title, shortDescription, content, blogId) {
-        var _a;
-        let isId = "";
-        if (db.posts.length === 0) {
-            isId = "0";
-        }
-        else if (db.posts.length === 1) {
-            if (db.posts[0].id !== "0") {
+        return __awaiter(this, void 0, void 0, function* () {
+            let isId = "";
+            if (db_local_1.db.posts.length === 0) {
                 isId = "0";
             }
+            else if (db_local_1.db.posts.length === 1) {
+                if (db_local_1.db.posts[0].id !== "0") {
+                    isId = "0";
+                }
+                else {
+                    isId = "1";
+                }
+            }
             else {
-                isId = "1";
-            }
-        }
-        else {
-            for (let i = 1; i < db.posts.length; i++) {
-                let elementTwo = db.posts[i - 1];
-                let idTwo = Number(elementTwo.id);
-                let elementOne = db.posts[i];
-                let idOne = Number(elementOne.id);
-                let raznitsaId = idOne - idTwo;
-                if (raznitsaId !== 1) {
-                    isId = String(idOne + 1);
-                    break;
-                }
-                if (i === db.posts.length - 1) {
-                    isId = String(idOne + 1);
-                    break;
+                for (let i = 1; i < db_local_1.db.posts.length; i++) {
+                    let elementTwo = db_local_1.db.posts[i - 1];
+                    let idTwo = Number(elementTwo.id);
+                    let elementOne = db_local_1.db.posts[i];
+                    let idOne = Number(elementOne.id);
+                    let raznitsaId = idOne - idTwo;
+                    if (raznitsaId !== 1) {
+                        isId = String(idOne + 1);
+                        break;
+                    }
+                    if (i === db_local_1.db.posts.length - 1) {
+                        isId = String(idOne + 1);
+                        break;
+                    }
                 }
             }
-        }
-        let isBlogName = "";
-        let aabb = (_a = blogsRepository.findBlogById(blogId)) === null || _a === void 0 ? void 0 : _a.name;
-        if (aabb !== undefined) {
-            isBlogName = aabb;
-        }
-        let isCreateAt = "";
-        var today = new Date();
-        isCreateAt = today.toISOString();
-        const createPost = {
-            id: isId,
-            title: title,
-            shortDescription: shortDescription,
-            content: content,
-            blogId: blogId,
-            blogName: isBlogName,
-            createAt: isCreateAt,
-        };
-        db.posts.push(createPost);
-        return createPost;
+            let isBlogName = "";
+            let aabb = yield blogs_repository_1.blogsRepository.findBlogById(blogId);
+            if (aabb) {
+                isBlogName = aabb.name;
+            }
+            let isCreateAt = "";
+            var today = new Date();
+            isCreateAt = today.toISOString();
+            const createPost = {
+                id: isId,
+                title: title,
+                shortDescription: shortDescription,
+                content: content,
+                blogId: blogId,
+                blogName: isBlogName,
+                createdAt: isCreateAt,
+            };
+            db_local_1.db.posts.push(createPost);
+            return createPost;
+        });
     },
     findPostById(id) {
-        let onePost = db.posts.find((p) => p.id === id);
-        return onePost;
+        return __awaiter(this, void 0, void 0, function* () {
+            let onePost = db_local_1.db.posts.find((p) => p.id === id);
+            if (onePost) {
+                return onePost;
+            }
+            else {
+                return null;
+            }
+        });
     },
-    updatePost(bbcc, title, shortDescription, content, blogId) {
-        var _a;
-        let isBlogName = "";
-        let aabb = (_a = blogsRepository.findBlogById(blogId)) === null || _a === void 0 ? void 0 : _a.name;
-        if (aabb !== undefined) {
-            isBlogName = aabb;
-        }
-        bbcc.title = title;
-        bbcc.shortDescription = shortDescription;
-        bbcc.content = content;
-        bbcc.blogId = blogId;
-        bbcc.blogName = isBlogName;
+    updatePost(id, title, shortDescription, content, blogId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let bbcc = yield exports.postsRepository.findPostById(id);
+            if (bbcc) {
+                let isBlogName = "";
+                let aabb = yield blogs_repository_1.blogsRepository.findBlogById(blogId);
+                if (aabb) {
+                    isBlogName = aabb.name;
+                }
+                bbcc.title = title;
+                bbcc.shortDescription = shortDescription;
+                bbcc.content = content;
+                bbcc.blogId = blogId;
+                bbcc.blogName = isBlogName;
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
     },
     deletePost(id) {
-        let onePost = db.posts.find((p) => p.id === id);
-        if (onePost !== undefined) {
-            db.posts = db.posts.filter((p) => p.id !== id);
-            return [204];
-        }
-        else {
-            return [404];
-        }
+        return __awaiter(this, void 0, void 0, function* () {
+            let onePost = db_local_1.db.posts.find((p) => p.id === id);
+            if (onePost !== undefined) {
+                db_local_1.db.posts = db_local_1.db.posts.filter((p) => p.id !== id);
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
     },
 };

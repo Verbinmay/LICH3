@@ -14,14 +14,14 @@ blogsRouter.get("/",async (req: Request, res: Response) => {
   });
   
   blogsRouter.post(
-    "/",
+    "/", 
     avtorizationValidationMiddleware,
     websiteUrlValidation,
     nameValidation,
     descriptionValidation,
     inputValidationMiddleware,
-    (req: Request<{}, {}, BlogInputModel>, res: Response) => {
-      let creatorsReturn = blogsRepository.createBlog(
+    async (req: Request<{}, {}, BlogInputModel>, res: Response) => {
+      let creatorsReturn: BlogViewModel  = await blogsRepository.createBlog(
         req.body.name,
         req.body.description,
         req.body.websiteUrl
@@ -30,8 +30,8 @@ blogsRouter.get("/",async (req: Request, res: Response) => {
     }
   );
   
-  blogsRouter.get("/:id", (req: Request, res: Response) => {
-    let oneBlog = blogsRepository.findBlogById(req.params.id);
+  blogsRouter.get("/:id", async (req: Request, res: Response) => {
+    let oneBlog = await blogsRepository.findBlogById(req.params.id);
     if (oneBlog) {
       res.status(200).json(oneBlog);
     } else {
@@ -46,8 +46,8 @@ blogsRouter.get("/",async (req: Request, res: Response) => {
     nameValidation,
     descriptionValidation,
     inputValidationMiddleware,
-    (req: Request<{ id: string }, {}, BlogInputModel>, res: Response) => {
-     let isUpdated =  blogsRepository.updateBlog(
+    async (req: Request<{ id: string }, {}, BlogInputModel>, res: Response) => {
+     let isUpdated =  await blogsRepository.updateBlog(
         req.params.id,
         req.body.name,
         req.body.description,
@@ -64,8 +64,8 @@ blogsRouter.get("/",async (req: Request, res: Response) => {
   blogsRouter.delete(
     "/:id",
     avtorizationValidationMiddleware,
-    (req: Request, res: Response) => {
-      let deletesReturn = blogsRepository.deleteblogs(req.params.id);
+    async (req: Request, res: Response) => {
+      let deletesReturn = await blogsRepository.deleteblogs(req.params.id);
       if (deletesReturn) {
         res.send(204);
       } else {
