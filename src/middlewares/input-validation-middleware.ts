@@ -37,7 +37,7 @@ export const isBlogIdValidation = body("blogId").custom((value) => {
 
   let foundBlog =db.blogs.find((p) => p.id === value);
 
-  if (value !== foundBlog.id) {
+  if (!foundBlog) {
     throw new Error("Please insert existed user id");
   }
   return true;

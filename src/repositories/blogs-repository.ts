@@ -55,7 +55,7 @@ export const blogsRepository = {
     return createBlog;
   },
   async findBlogById(id: string): Promise<BlogViewModel | null> {
-    let oneBlog:BlogViewModel|null = db.blogs.find((p) => p.id === id);
+    let oneBlog = db.blogs.find((p) => p.id === id);
     if ( oneBlog){
       return oneBlog;
       } else {

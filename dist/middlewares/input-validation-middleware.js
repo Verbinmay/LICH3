@@ -35,7 +35,7 @@ exports.contentValidation = (0, express_validator_1.body)("content")
     .withMessage("content length must be max 1000");
 exports.isBlogIdValidation = (0, express_validator_1.body)("blogId").custom((value) => {
     let foundBlog = db_local_1.db.blogs.find((p) => p.id === value);
-    if (value !== foundBlog.id) {
+    if (!foundBlog) {
         throw new Error("Please insert existed user id");
     }
     return true;
