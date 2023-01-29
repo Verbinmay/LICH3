@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult, body } from "express-validator";
 import { blogsRepository } from "../repositories/blogs-repository";
-import { db } from "../repositories/db-local";
+import { db } from "../repositories/db-in";
 
 export const titleValidation = body("title")
   .isString()

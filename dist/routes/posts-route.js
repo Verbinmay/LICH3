@@ -13,18 +13,18 @@ exports.postsRouter = void 0;
 const express_1 = require("express");
 const avtorization_middleware_1 = require("../middlewares/avtorization-middleware");
 const input_validation_middleware_1 = require("../middlewares/input-validation-middleware");
-const posts_repository_1 = require("../repositories/posts-repository");
+const posts_local_repository_1 = require("../repositories/posts-local-repository");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let foundPosts = yield posts_repository_1.postsRepository.findPosts();
+    let foundPosts = yield posts_local_repository_1.postsRepository.findPosts();
     res.status(200).json(foundPosts);
 }));
 exports.postsRouter.post("/", avtorization_middleware_1.avtorizationValidationMiddleware, input_validation_middleware_1.shortDescriptionValidation, input_validation_middleware_1.titleValidation, input_validation_middleware_1.contentValidation, input_validation_middleware_1.isBlogIdValidation, input_validation_middleware_1.inputValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const creatersReturn = yield posts_repository_1.postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId);
+    const creatersReturn = yield posts_local_repository_1.postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId);
     res.status(201).json(creatersReturn);
 }));
 exports.postsRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let onePost = yield posts_repository_1.postsRepository.findPostById(req.params.id);
+    let onePost = yield posts_local_repository_1.postsRepository.findPostById(req.params.id);
     if (onePost) {
         res.status(200).json(onePost);
     }
@@ -33,7 +33,7 @@ exports.postsRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, 
     }
 }));
 exports.postsRouter.put("/:id", avtorization_middleware_1.avtorizationValidationMiddleware, input_validation_middleware_1.shortDescriptionValidation, input_validation_middleware_1.titleValidation, input_validation_middleware_1.contentValidation, input_validation_middleware_1.isBlogIdValidation, input_validation_middleware_1.inputValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let bbcc = yield posts_repository_1.postsRepository.updatePost(req.params.id, req.body.title, req.body.shortDescription, req.body.content, req.body.blogId);
+    let bbcc = yield posts_local_repository_1.postsRepository.updatePost(req.params.id, req.body.title, req.body.shortDescription, req.body.content, req.body.blogId);
     if (bbcc) {
         res.send(204);
     }
@@ -42,7 +42,7 @@ exports.postsRouter.put("/:id", avtorization_middleware_1.avtorizationValidation
     }
 }));
 exports.postsRouter.delete("/:id", avtorization_middleware_1.avtorizationValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let deletesReturn = yield posts_repository_1.postsRepository.deletePost(req.params.id);
+    let deletesReturn = yield posts_local_repository_1.postsRepository.deletePost(req.params.id);
     if (deletesReturn) {
         res.send(204);
     }

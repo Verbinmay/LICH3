@@ -10,21 +10,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepository = void 0;
-const db_local_1 = require("./db-local");
+const db_in_1 = require("./db-in");
 exports.blogsRepository = {
     findBlogs() {
         return __awaiter(this, void 0, void 0, function* () {
-            return db_local_1.db.blogs;
+            return db_in_1.db.blogs;
         });
     },
     createBlog(name, description, websiteUrl) {
         return __awaiter(this, void 0, void 0, function* () {
             let isId = "";
-            if (db_local_1.db.blogs.length === 0) {
+            if (db_in_1.db.blogs.length === 0) {
                 isId = "0";
             }
-            else if (db_local_1.db.blogs.length === 1) {
-                if (db_local_1.db.blogs[0].id !== "0") {
+            else if (db_in_1.db.blogs.length === 1) {
+                if (db_in_1.db.blogs[0].id !== "0") {
                     isId = "0";
                 }
                 else {
@@ -32,17 +32,17 @@ exports.blogsRepository = {
                 }
             }
             else {
-                for (let i = 1; i < db_local_1.db.blogs.length; i++) {
-                    let elementTwo = db_local_1.db.blogs[i - 1];
+                for (let i = 1; i < db_in_1.db.blogs.length; i++) {
+                    let elementTwo = db_in_1.db.blogs[i - 1];
                     let idTwo = Number(elementTwo.id);
-                    let elementOne = db_local_1.db.blogs[i];
+                    let elementOne = db_in_1.db.blogs[i];
                     let idOne = Number(elementOne.id);
                     let raznitsaId = idOne - idTwo;
                     if (raznitsaId !== 1) {
                         isId = String(idOne + 1);
                         break;
                     }
-                    if (i === db_local_1.db.blogs.length - 1) {
+                    if (i === db_in_1.db.blogs.length - 1) {
                         isId = String(idOne + 1);
                         break;
                     }
@@ -60,13 +60,13 @@ exports.blogsRepository = {
                 websiteUrl: isWebsiteUrl,
                 createdAt: isCreateAt,
             };
-            db_local_1.db.blogs.push(createBlog);
+            db_in_1.db.blogs.push(createBlog);
             return createBlog;
         });
     },
     findBlogById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let oneBlog = db_local_1.db.blogs.find((p) => p.id === id);
+            let oneBlog = db_in_1.db.blogs.find((p) => p.id === id);
             if (oneBlog) {
                 return oneBlog;
             }
@@ -77,7 +77,7 @@ exports.blogsRepository = {
     },
     updateBlog(id, name, description, websiteUrl) {
         return __awaiter(this, void 0, void 0, function* () {
-            let ddff = db_local_1.db.blogs.find((p) => p.id === id);
+            let ddff = db_in_1.db.blogs.find((p) => p.id === id);
             if (ddff) {
                 ddff.name = name;
                 ddff.description = description;
@@ -91,9 +91,9 @@ exports.blogsRepository = {
     },
     deleteblogs(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let oneBlog = db_local_1.db.blogs.find((p) => p.id === id);
+            let oneBlog = db_in_1.db.blogs.find((p) => p.id === id);
             if (oneBlog !== undefined) {
-                db_local_1.db.blogs = db_local_1.db.blogs.filter((p) => p.id !== id);
+                db_in_1.db.blogs = db_in_1.db.blogs.filter((p) => p.id !== id);
                 return true;
             }
             else {

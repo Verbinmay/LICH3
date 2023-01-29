@@ -11,21 +11,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsRepository = void 0;
 const blogs_repository_1 = require("./blogs-repository");
-const db_local_1 = require("./db-local");
+const db_in_1 = require("./db-in");
 exports.postsRepository = {
     findPosts() {
         return __awaiter(this, void 0, void 0, function* () {
-            return db_local_1.db.posts;
+            return db_in_1.db.posts;
         });
     },
     createPost(title, shortDescription, content, blogId) {
         return __awaiter(this, void 0, void 0, function* () {
             let isId = "";
-            if (db_local_1.db.posts.length === 0) {
+            if (db_in_1.db.posts.length === 0) {
                 isId = "0";
             }
-            else if (db_local_1.db.posts.length === 1) {
-                if (db_local_1.db.posts[0].id !== "0") {
+            else if (db_in_1.db.posts.length === 1) {
+                if (db_in_1.db.posts[0].id !== "0") {
                     isId = "0";
                 }
                 else {
@@ -33,17 +33,17 @@ exports.postsRepository = {
                 }
             }
             else {
-                for (let i = 1; i < db_local_1.db.posts.length; i++) {
-                    let elementTwo = db_local_1.db.posts[i - 1];
+                for (let i = 1; i < db_in_1.db.posts.length; i++) {
+                    let elementTwo = db_in_1.db.posts[i - 1];
                     let idTwo = Number(elementTwo.id);
-                    let elementOne = db_local_1.db.posts[i];
+                    let elementOne = db_in_1.db.posts[i];
                     let idOne = Number(elementOne.id);
                     let raznitsaId = idOne - idTwo;
                     if (raznitsaId !== 1) {
                         isId = String(idOne + 1);
                         break;
                     }
-                    if (i === db_local_1.db.posts.length - 1) {
+                    if (i === db_in_1.db.posts.length - 1) {
                         isId = String(idOne + 1);
                         break;
                     }
@@ -66,13 +66,13 @@ exports.postsRepository = {
                 blogName: isBlogName,
                 createdAt: isCreateAt,
             };
-            db_local_1.db.posts.push(createPost);
+            db_in_1.db.posts.push(createPost);
             return createPost;
         });
     },
     findPostById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let onePost = db_local_1.db.posts.find((p) => p.id === id);
+            let onePost = db_in_1.db.posts.find((p) => p.id === id);
             if (onePost) {
                 return onePost;
             }
@@ -104,9 +104,9 @@ exports.postsRepository = {
     },
     deletePost(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let onePost = db_local_1.db.posts.find((p) => p.id === id);
+            let onePost = db_in_1.db.posts.find((p) => p.id === id);
             if (onePost !== undefined) {
-                db_local_1.db.posts = db_local_1.db.posts.filter((p) => p.id !== id);
+                db_in_1.db.posts = db_in_1.db.posts.filter((p) => p.id !== id);
                 return true;
             }
             else {

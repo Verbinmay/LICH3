@@ -1,7 +1,7 @@
 import express,{Request, Response} from 'express'
 import bodyParser from "body-parser"; 
 import { runDb } from './repositories/db';
-import { db } from './repositories/db-local';
+import { db } from './repositories/db-in';
 import { blogsRouter } from './routes/blogs-route';
 import { postsRouter } from './routes/posts-route';
 const app = express()

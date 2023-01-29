@@ -13,18 +13,18 @@ exports.blogsRouter = void 0;
 const express_1 = require("express");
 const avtorization_middleware_1 = require("../middlewares/avtorization-middleware");
 const input_validation_middleware_1 = require("../middlewares/input-validation-middleware");
-const blogs_repository_1 = require("../repositories/blogs-repository");
+const blogs_local_repository_1 = require("../repositories/blogs-local-repository");
 exports.blogsRouter = (0, express_1.Router)({});
 exports.blogsRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let foundBlogs = yield blogs_repository_1.blogsRepository.findBlogs();
+    let foundBlogs = yield blogs_local_repository_1.blogsRepository.findBlogs();
     res.status(200).json(foundBlogs);
 }));
 exports.blogsRouter.post("/", avtorization_middleware_1.avtorizationValidationMiddleware, input_validation_middleware_1.websiteUrlValidation, input_validation_middleware_1.nameValidation, input_validation_middleware_1.descriptionValidation, input_validation_middleware_1.inputValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let creatorsReturn = yield blogs_repository_1.blogsRepository.createBlog(req.body.name, req.body.description, req.body.websiteUrl);
+    let creatorsReturn = yield blogs_local_repository_1.blogsRepository.createBlog(req.body.name, req.body.description, req.body.websiteUrl);
     res.status(201).json(creatorsReturn);
 }));
 exports.blogsRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let oneBlog = yield blogs_repository_1.blogsRepository.findBlogById(req.params.id);
+    let oneBlog = yield blogs_local_repository_1.blogsRepository.findBlogById(req.params.id);
     if (oneBlog) {
         res.status(200).json(oneBlog);
     }
@@ -33,7 +33,7 @@ exports.blogsRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, 
     }
 }));
 exports.blogsRouter.put("/:id", avtorization_middleware_1.avtorizationValidationMiddleware, input_validation_middleware_1.websiteUrlValidation, input_validation_middleware_1.nameValidation, input_validation_middleware_1.descriptionValidation, input_validation_middleware_1.inputValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let isUpdated = yield blogs_repository_1.blogsRepository.updateBlog(req.params.id, req.body.name, req.body.description, req.body.websiteUrl);
+    let isUpdated = yield blogs_local_repository_1.blogsRepository.updateBlog(req.params.id, req.body.name, req.body.description, req.body.websiteUrl);
     if (isUpdated) {
         res.send(204);
     }
@@ -42,7 +42,7 @@ exports.blogsRouter.put("/:id", avtorization_middleware_1.avtorizationValidation
     }
 }));
 exports.blogsRouter.delete("/:id", avtorization_middleware_1.avtorizationValidationMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let deletesReturn = yield blogs_repository_1.blogsRepository.deleteblogs(req.params.id);
+    let deletesReturn = yield blogs_local_repository_1.blogsRepository.deleteBlog(req.params.id);
     if (deletesReturn) {
         res.send(204);
     }

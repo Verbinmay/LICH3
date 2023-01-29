@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
 import { avtorizationValidationMiddleware } from "../middlewares/avtorization-middleware";
 import { websiteUrlValidation, nameValidation, descriptionValidation, inputValidationMiddleware } from "../middlewares/input-validation-middleware";
-import { blogsRepository } from "../repositories/blogs-repository";
+import { blogsRepository } from "../repositories/blogs-local-repository";
 import { BlogInputModel, BlogViewModel } from "../types";
 
 
@@ -65,7 +65,7 @@ blogsRouter.get("/",async (req: Request, res: Response) => {
     "/:id",
     avtorizationValidationMiddleware,
     async (req: Request, res: Response) => {
-      let deletesReturn = await blogsRepository.deleteblogs(req.params.id);
+      let deletesReturn = await blogsRepository.deleteBlog(req.params.id);
       if (deletesReturn) {
         res.send(204);
       } else {

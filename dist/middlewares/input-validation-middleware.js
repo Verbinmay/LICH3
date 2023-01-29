@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.inputValidationMiddleware = exports.websiteUrlValidation = exports.descriptionValidation = exports.nameValidation = exports.isBlogIdValidation = exports.contentValidation = exports.shortDescriptionValidation = exports.titleValidation = void 0;
 const express_validator_1 = require("express-validator");
-const db_local_1 = require("../repositories/db-local");
+const db_in_1 = require("../repositories/db-in");
 exports.titleValidation = (0, express_validator_1.body)("title")
     .isString()
     .withMessage("Title isnt string")
@@ -34,7 +34,7 @@ exports.contentValidation = (0, express_validator_1.body)("content")
     .isLength({ max: 1000 })
     .withMessage("content length must be max 1000");
 exports.isBlogIdValidation = (0, express_validator_1.body)("blogId").custom((value) => {
-    let foundBlog = db_local_1.db.blogs.find((p) => p.id === value);
+    let foundBlog = db_in_1.db.blogs.find((p) => p.id === value);
     if (!foundBlog) {
         throw new Error("Please insert existed user id");
     }

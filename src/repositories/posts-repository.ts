@@ -1,6 +1,6 @@
 import { PostViewModel } from "../types";
 import { blogsRepository } from "./blogs-repository";
-import { db } from "./db-local";
+import { db } from "./db-in";
 
 export const postsRepository = {
   async findPosts() {

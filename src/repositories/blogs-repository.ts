@@ -1,5 +1,5 @@
 import { BlogViewModel } from "../types";
-import { db } from "./db-local";
+import { db } from "./db-in";
 
 export const blogsRepository = {
   async findBlogs(): Promise<BlogViewModel[]> {

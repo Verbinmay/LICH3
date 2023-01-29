@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
 import { avtorizationValidationMiddleware } from "../middlewares/avtorization-middleware";
 import { shortDescriptionValidation, titleValidation, contentValidation, isBlogIdValidation, inputValidationMiddleware } from "../middlewares/input-validation-middleware";
-import { postsRepository } from "../repositories/posts-repository";
+import { postsRepository } from "../repositories/posts-local-repository";
 import { PostInputModel } from "../types";
 
 export const postsRouter = Router({});
