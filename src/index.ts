@@ -19,9 +19,10 @@ app.use('/posts', postsRouter)
 //   res.send(204);
 // });
 
-app.delete("/testing/all-data", (req: Request, res: Response) => {
-  blogsCollections.deleteMany({});
-  postsCollections.deleteMany({});
+app.delete("/testing/all-data", async (req: Request, res: Response) => {
+  let result = await blogsCollections.deleteMany({});
+  let result1 =await postsCollections.deleteMany({});
+  
   res.send(204);
 });
 

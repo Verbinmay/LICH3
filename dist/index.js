@@ -28,11 +28,11 @@ app.use('/posts', posts_route_1.postsRouter);
 //   db.blogs = [];
 //   res.send(204);
 // });
-app.delete("/testing/all-data", (req, res) => {
-    db_1.blogsCollections.deleteMany({});
-    db_1.postsCollections.deleteMany({});
+app.delete("/testing/all-data", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let result = yield db_1.blogsCollections.deleteMany({});
+    let result1 = yield db_1.postsCollections.deleteMany({});
     res.send(204);
-});
+}));
 const startApp = () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, db_1.runDb)();
     app.listen(port, () => {
