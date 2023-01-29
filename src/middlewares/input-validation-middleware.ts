@@ -34,14 +34,26 @@ export const contentValidation = body("content")
   .bail()
   .isLength({ max: 1000 })
   .withMessage("content length must be max 1000");
-export const isBlogIdValidation = body("blogId").custom((value) => {
+export const isBlogIdValidation = body("blogId").custom(async (value) => {
 
-  let foundBlog =blogsCollections.findOne({id:value});
- 
+  let result = await blogsCollections.findOne({id: value})
+if (result){
 
-  if (!foundBlog) {
-    throw new Error("Please insert existed user id");
-  }
+}
+
+  if (result==null){
+  throw new Error("Please insert existed user id");
+  
+}
+  // if (value !== blogsRepository.findBlogById(value)?.id) {
+  //   throw new Error("Please insert existed user id");
+  // }
+  // return true;
+
+  // let foundBlog = blogsRepository.findBlogById(value);
+  // if (foundBlog!=null) {
+  //   throw new Error("Please insert existed user id");
+  // }
   return true;
 });
 

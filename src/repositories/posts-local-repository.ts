@@ -1,6 +1,6 @@
 import { PostViewModel } from "../types";
 import { blogsRepository } from "./blogs-repository";
-import { postsCollections } from "./db";
+import { blogsCollections, postsCollections } from "./db";
 
 export const postsRepository = {
   async findPosts() {
@@ -27,8 +27,8 @@ export const postsRepository = {
     } while (schetchik === false);
 
     let isBlogName: string = "";
-    let aabb = await blogsRepository.findBlogById(blogId);
-    if (aabb) {
+    let aabb = await blogsCollections.findOne({id:blogId});
+    if (aabb!=null) {
       isBlogName = aabb.name;
     }
 
